@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Covered+By+Your+Grace&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fff5f7 0%, #ffe8ec 50%, #ffd4dc 100%);
+      font-family: 'Patrick Hand', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle, #ffb3c6 1px, transparent 1px),
+        radial-gradient(circle, #ffc4d6 1px, transparent 1px);
+      background-size: 50px 50px, 80px 80px;
+      background-position: 0 0, 40px 40px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .envelope {
+      position: relative;
+      width: 350px;
+      height: 250px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: floatEnvelope 3s ease-in-out infinite;
+    }
+
+    @keyframes floatEnvelope {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-15px) rotate(2deg); }
+    }
+
+    .envelope:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+    }
+
+    .envelope-back {
+      position: absolute;
+      width: 350px;
+      height: 250px;
+      background: #fff9e6;
+      border: 4px solid #ff6b9d;
+      border-radius: 12px;
+      box-shadow: 
+        0 10px 30px rgba(255, 107, 157, 0.3),
+        inset 0 0 0 2px #ffb3c6;
+    }
+
+    .envelope-front {
+      position: absolute;
+      width: 350px;
+      height: 250px;
+      background: #fff9e6;
+      border: 4px solid #ff6b9d;
+      border-radius: 12px;
+      clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 40px;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-left: 175px solid transparent;
+      border-right: 175px solid transparent;
+      border-top: 125px solid #ffb3c6;
+      border-bottom: 4px solid #ff6b9d;
+      transform-origin: top center;
+      transition: transform 0.8s ease;
+      z-index: 5;
+      filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.3));
+    }
+
+    .envelope.opening .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .doodle-heart {
+      font-size: 60px;
+      color: #ff6b9d;
+      animation: heartBeat 1.5s ease-in-out infinite;
+      text-shadow: 2px 2px 0 #fff;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1) rotate(-5deg); }
+      75% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    .tap-text {
+      font-size: 24px;
+      color: #ff6b9d;
+      margin-top: 10px;
+      animation: bounce 2s ease-in-out infinite;
+      text-shadow: 1px 1px 0 #fff;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .card {
+      position: absolute;
+      background: #fff;
+      border: 5px solid #ff6b9d;
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 650px;
+      width: 90%;
+      box-shadow: 
+        0 20px 60px rgba(255, 107, 157, 0.4),
+        inset 0 0 0 3px #ffb3c6,
+        inset 0 0 0 6px #fff;
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .card::before,
+    .card::after {
+      content: '♡';
+      position: absolute;
+      font-size: 40px;
+      color: #ffb3c6;
+      opacity: 0.5;
+    }
+
+    .card::before {
+      top: 10px;
+      left: 15px;
+      transform: rotate(-15deg);
+    }
+
+    .card::after {
+      bottom: 10px;
+      right: 15px;
+      transform: rotate(15deg);
+    }
+
+    .card.show {
+      transform: scale(1);
+      animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+      }
+      80% {
+        transform: scale(1.1) rotate(5deg);
+      }
+      100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .card-content {
+      text-align: center;
+    }
+
+    .doodle-stars {
+      margin-bottom: 15px;
+    }
+
+    .star {
+      font-size: 30px;
+      color: #ffd700;
+      margin: 0 15px;
+      display: inline-block;
+      animation: starTwinkle 1.5s ease-in-out infinite;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    .star:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .star:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 1; transform: scale(1) rotate(0); }
+      50% { opacity: 0.6; transform: scale(1.2) rotate(180deg); }
+    }
+
+    .title-doodle {
+      font-size: 48px;
+      color: #ff6b9d;
+      font-family: 'Covered By Your Grace', cursive;
+      margin: 10px 0;
+      text-shadow: 3px 3px 0 #ffb3c6;
+      transform: rotate(-2deg);
+    }
+
+    .subtitle-doodle {
+      font-size: 64px;
+      color: #ff1744;
+      font-family: 'Covered By Your Grace', cursive;
+      margin: -5px 0 25px;
+      text-shadow: 4px 4px 0 #ffb3c6;
+      transform: rotate(2deg);
+    }
+
+    .chibi-container {
+      position: relative;
+      margin: 30px 0;
+      display: inline-block;
+    }
+
+    .chibi-img {
+      width: 300px;
+      height: auto;
+      border: 4px dashed #ff6b9d;
+      border-radius: 20px;
+      padding: 15px;
+      background: #fff9e6;
+      box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+      transform: rotate(-1deg);
+    }
+
+    .speech-bubble {
+      position: absolute;
+      background: #fff;
+      border: 3px solid #ff6b9d;
+      border-radius: 20px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-family: 'Kalam', cursive;
+      box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+      animation: bubbleFloat 2s ease-in-out infinite;
+    }
+
+    .speech-bubble.left {
+      top: -20px;
+      left: -100px;
+      background: #fff5f7;
+      animation-delay: 0.2s;
+      transform: rotate(-5deg);
+    }
+
+    .speech-bubble.right {
+      bottom: 20px;
+      right: -90px;
+      background: #ffe8ec;
+      animation-delay: 0.5s;
+      transform: rotate(5deg);
+    }
+
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-8px) rotate(-5deg); }
+    }
+
+    .speech-bubble.right {
+      animation-name: bubbleFloatRight;
+    }
+
+    @keyframes bubbleFloatRight {
+      0%, 100% { transform: translateY(0) rotate(5deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    .bubble-tail-left,
+    .bubble-tail-right {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    .bubble-tail-left {
+      bottom: -10px;
+      left: 20px;
+      border-left: 15px solid transparent;
+      border-top: 15px solid #ff6b9d;
+    }
+
+    .bubble-tail-right {
+      bottom: -10px;
+      right: 20px;
+      border-right: 15px solid transparent;
+      border-top: 15px solid #ff6b9d;
+    }
+
+    .doodle-divider {
+      margin: 25px 0;
+      font-size: 24px;
+      color: #ff6b9d;
+    }
+
+    .hand-section {
+      margin: 30px 0;
+    }
+
+    .hand-prompt {
+      font-size: 24px;
+      color: #ff6b9d;
+      margin-bottom: 15px;
+      font-family: 'Kalam', cursive;
+    }
+
+    .hand-icon {
+      font-size: 48px;
+      cursor: pointer;
+      display: inline-block;
+      transition: all 0.3s ease;
+      animation: wiggle 2s ease-in-out infinite;
+    }
+
+    .hand-icon:hover {
+      transform: scale(1.3) rotate(10deg);
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .valentine-btn-doodle {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+      color: #fff;
+      border: 4px solid #fff;
+      padding: 18px 40px;
+      font-size: 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 25px;
+      font-family: 'Patrick Hand', cursive;
+      font-weight: bold;
+      box-shadow: 
+        0 8px 20px rgba(255, 107, 157, 0.4),
+        inset 0 -4px 0 rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      transform: rotate(-2deg);
+    }
+
+    .valentine-btn-doodle:hover {
+      transform: translateY(-5px) rotate(2deg) scale(1.05);
+      box-shadow: 
+        0 12px 30px rgba(255, 107, 157, 0.5),
+        inset 0 -4px 0 rgba(0,0,0,0.1);
+    }
+
+    .valentine-btn-doodle:active {
+      transform: translateY(-2px) rotate(0deg) scale(1.02);
+    }
+
+    .response {
+      margin-top: 25px;
+      font-size: 28px;
+      color: #ff1744;
+      font-family: 'Covered By Your Grace', cursive;
+      animation: responseAppear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      text-shadow: 2px 2px 0 #ffb3c6;
+    }
+
+    @keyframes responseAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    .doodle-footer {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #ff6b9d;
+      font-family: 'Kalam', cursive;
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 28px;
+      animation: cuteFloat 3s ease-in forwards;
+      pointer-events: none;
+      z-index: 1000;
+      filter: drop-shadow(0 0 5px rgba(255, 107, 157, 0.5));
+    }
+
+    @keyframes cuteFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-1000px) rotate(360deg) scale(0.5);
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #ff6b9d;
+      animation: confettiFall 3s ease-in forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(1000px) rotate(720deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .speech-bubble.left {
+        left: -80px;
+        font-size: 14px;
+      }
+      
+      .speech-bubble.right {
+        right: -70px;
+        font-size: 14px;
+      }
+      
+      .chibi-img {
+        width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="envelope" class="envelope">
+      <div class="envelope-back"></div>
+      <div class="envelope-flap"></div>
+      <div class="envelope-front">
+        <div class="doodle-heart">♡</div>
+        <p class="tap-text">tap to open! ✨</p>
+      </div>
+    </div>
+    
+    <div id="card" class="card hidden">
+      <div class="card-content">
+        <div class="doodle-stars">
+          <span class="star">★</span>
+          <span class="star">✦</span>
+          <span class="star">★</span>
+        </div>
+        
+        <h1 class="title-doodle">Be my</h1>
+        <h2 class="subtitle-doodle">Valentine ♡</h2>
+        
+        <div class="chibi-container">
+          <img src="https://i.imgur.com/luffyxnami.jpg" class="chibi-img" id="chibiImg" alt="Luffy and Nami">
+          <div class="speech-bubble left">
+            <p>"You're my greatest treasure!"</p>
+            <div class="bubble-tail-left"></div>
+          </div>
+          <div class="speech-bubble right">
+            <p>"Baka! ♡"</p>
+            <div class="bubble-tail-right"></div>
+          </div>
+        </div>
+        
+        <div class="doodle-divider">
+          <span>～ ♡ ～ ♡ ～</span>
+        </div>
+        
+        <div class="hand-section">
+          <p class="hand-prompt">Hold my hand? (๑˃ᴗ˂)ﻭ</p>
+          <div class="hand-icon">🤝✨</div>
+        </div>
+        
+        <button id="valentineBtn" class="valentine-btn-doodle">
+          <span>Yes! ♡ Be my Valentine!</span>
+        </button>
+        
+        <div id="response" class="response hidden"></div>
+        
+        <div class="doodle-footer">
+          <p>～ From your Pirate King 👑🏴‍☠️ ～</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const envelope = document.getElementById('envelope');
+    const card = document.getElementById('card');
+    const valentineBtn = document.getElementById('valentineBtn');
+    const response = document.getElementById('response');
+    const handIcon = document.querySelector('.hand-icon');
+    const chibiImg = document.getElementById('chibiImg');
+
+    // Upload your chibi image to imgur.com and replace this URL
+    chibiImg.src = 'https://i.imgur.com/YOUR_IMAGE_ID.jpg';
+
+    envelope.addEventListener('click', function() {
+      envelope.classList.add('opening');
+      
+      for(let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          createCuteHeart(
+            envelope.offsetLeft + Math.random() * 350,
+            envelope.offsetTop + Math.random() * 250
+          );
+        }, i * 50);
+      }
+      
+      setTimeout(() => {
+        envelope.style.opacity = '0';
+        envelope.style.transform = 'scale(0) rotate(180deg)';
+      }, 800);
+      
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        card.classList.remove('hidden');
+        card.classList.add('show');
+      }, 1200);
+    });
+
+    handIcon.addEventListener('click', function(event) {
+      handIcon.style.transform = 'scale(1.4) rotate(20deg)';
+      
+      for(let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          createCuteHeart(event.clientX, event.clientY);
+        }, i * 100);
+      }
+      
+      setTimeout(() => {
+        handIcon.style.transform = 'scale(1)';
+      }, 400);
+    });
+
+    valentineBtn.addEventListener('click', function() {
+      response.innerHTML = '🎉 キャー! You made me so happy! 🎉<br><span style="font-size: 22px; margin-top: 10px; display: block;">( ˘ ³˘)♥ Forever sailing together! 🏴‍☠️✨</span>';
+      response.classList.remove('hidden');
+      
+      kawaiiCelebration();
+    });
+
+    function createCuteHeart(x, y) {
+      const hearts = ['♡', '♥', '💕', '💖', '💗', '💓', '💝'];
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+      heart.style.top = y + 'px';
+      heart.style.color = ['#ff6b9d', '#ff1744', '#ffc4d6', '#ffb3c6'][Math.floor(Math.random() * 4)];
+      document.body.appendChild(heart);
+      
+      setTimeout(() => heart.remove(), 3000);
+    }
+
+    function kawaiiCelebration() {
+      for(let i = 0; i < 40; i++) {
+        setTimeout(() => {
+          createCuteHeart(
+            Math.random() * window.innerWidth,
+            window.innerHeight + 50
+          );
+        }, i * 100);
+      }
+      
+      for(let i = 0; i < 60; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.classList.add('confetti');
+          confetti.style.left = Math.random() * window.innerWidth + 'px';
+          confetti.style.top = '-20px';
+          confetti.style.background = ['#ff6b9d', '#ff1744', '#ffc4d6', '#ffd700', '#ffb3c6'][Math.floor(Math.random() * 5)];
+          confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+          document.body.appendChild(confetti);
+          
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 50);
+      }
+    }
+  </script>
+</body>
+</html>
